@@ -14,7 +14,12 @@ private
   }
 
   public void add_question(Question question) {
-    questions.add(question);
+
+    try {
+      questions.add(question);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public Question get_question(int index) {
@@ -22,6 +27,9 @@ private
   }
 
   //========== getter and setter ==========
-  public String getName() {return this.name;}
+  public String get_name() {return this.name;}
+  public void set_name(String name) {this.name = name;}
+
+
 
 }
