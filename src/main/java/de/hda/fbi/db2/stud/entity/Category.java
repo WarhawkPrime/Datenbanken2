@@ -7,10 +7,8 @@ private
   String name;
   ArrayList<Question> questions;
 
-
-
   public Category() {
-
+    questions = new ArrayList<Question>();
   }
 
   public void add_question(Question question) {

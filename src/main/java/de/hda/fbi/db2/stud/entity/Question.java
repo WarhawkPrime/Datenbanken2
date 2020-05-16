@@ -10,8 +10,10 @@ private
 
 
   public Question () {
-
+      answers = new ArrayList<String>();
   }
+
+
 
   //========== getter and setter ==========
   public int get_id() {return this.id;}
