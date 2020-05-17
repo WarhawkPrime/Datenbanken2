@@ -10,7 +10,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hda.fbi.db2.stud.*;
+import de.hda.fbi.db2.stud.entity.Category;
+import  de.hda.fbi.db2.stud.entity.Question;
 
 public class Lab01Imp extends Lab01Data {
 
@@ -41,15 +42,35 @@ public class Lab01Imp extends Lab01Data {
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(";");
         // do something with the data;
-        //ID;_frage;_antwort_1;_antwort_2;_antwort_3;_antwort_4;_loesung;_kategorie
+        //ID;     _frage;_antwort_1;_antwort_2;_antwort_3;_antwort_4;_loesung;    _kategorie
+        //data[0],data[1],data[2],    data[3],  data[4],    data[5],    data[6],  data[7],
+
+
+        //TO DO ==> the first line has to be ignored
 
         //create question
         Question question = new Question();
 
         //set the values for the question
+        int id = Integer.parseInt(data[0]);
+        question.set_id(id);
+        question.set_question(data[1]);
+
+        question.fill_answers(data[2]);
+        question.fill_answers(data[3]);
+        question.fill_answers(data[4]);
+        question.fill_answers(data[5]);
+        question.set_correct_answer(Integer.parseInt(data[6]));
 
         //create category if it doesnt exist
-
+        if(search_for_categories(data[7]) == false)
+        {
+          Category category = new Category(data[7]);
+          add_question(question, data[7]);
+        }
+        else {
+          add_question(question, data[7]);
+        }
       }
 
       csvReader.close();
@@ -60,6 +81,24 @@ public class Lab01Imp extends Lab01Data {
   }
 
   //method to check if a category is new
+  public boolean search_for_categories(String category_name) {
+    for (Category elem: categories)
+    {
+      if( elem.get_name() == category_name ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //method to add a question to a category
+  public void add_question(Question question, String category_name) {
+    for (Category elem: categories) {
+        if (elem.get_name() == category_name) {
+          elem.add_question(question);
+        }
+    }
+  }
 
 
 }

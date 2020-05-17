@@ -7,12 +7,12 @@ private
   String name;
   ArrayList<Question> questions;
 
-  public Category() {
+  public Category(String name) {
     questions = new ArrayList<Question>();
+    this.name = name;
   }
 
   public void add_question(Question question) {
-
     try {
       questions.add(question);
     } catch (Exception e) {
