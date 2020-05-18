@@ -26,6 +26,7 @@ private
 
   //========== getter and setter ==========
   public String get_name() {return this.name;}
+  public List<Question> get_questions() {return this.questions;}
   public void set_name(String name) {this.name = name;}
 
 
