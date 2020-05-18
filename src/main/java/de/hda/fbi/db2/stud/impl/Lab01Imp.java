@@ -10,9 +10,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hda.fbi.db2.stud.entity.Category;
-import  de.hda.fbi.db2.stud.entity.Question;
-
 public class Lab01Imp extends Lab01Data {
 
   //needed to store the categories
@@ -62,7 +59,7 @@ public class Lab01Imp extends Lab01Data {
         question.set_correct_answer(Integer.parseInt(data[6]));
 
         //create category if it doesnt exist
-        if(!search_for_categories(data[7])) {
+        if (!search_for_categories(data[7])) {
           Category category = new Category(data[7]);
           System.out.println(data[7]);
           this.categories.add(category);
@@ -77,20 +74,28 @@ public class Lab01Imp extends Lab01Data {
 
   }
 
-  //method to check if a category is new
-  public boolean search_for_categories(String category_name) {
+  /**
+   * searches for an existing category.
+   * @param categoryName is the search parameter
+   * @return returns a boolean value if a category is found
+   */
+  public boolean search_for_categories(String categoryName) {
     for (Category elem: categories) {
-      if( elem.get_name().equals(category_name) ) {
+      if (elem.get_name().equals(categoryName)) {
         return true;
       }
     }
     return false;
   }
 
-  //method to add a question to a category
-  public void add_question(Question question, String category_name) {
+  /**
+   * adds a queston to the category.
+   * @param question Question to be added
+   * @param categoryName Category to add the queston to
+   */
+  public void add_question(Question question, String categoryName) {
     for (Category elem: categories) {
-      if (elem.get_name().equals(category_name)) {
+      if (elem.get_name().equals(categoryName)) {
         elem.add_question(question);
       }
     }
