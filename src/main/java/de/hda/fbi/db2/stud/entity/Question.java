@@ -4,27 +4,59 @@ import java.util.ArrayList;
 
 public class Question {
   private
-  int id;
-  int correct_answer;
+      int id;
+  int correctAnswer;
   String question;
   ArrayList<String> answers;
 
 
-  public Question () {
+  public Question() {
     answers = new ArrayList<String>();
   }
 
 
 
   //========== getter and setter ==========
-  public int get_id() {return this.id;}
-  public int get_correct_answer() {return correct_answer;}
-  public String get_question() {return question;}
-  public ArrayList<String> get_answer_list () {return this.answers;}
+  public int get_id() {
+    return this.id;
+  }
 
-  public void set_id(int id) {this.id = id;}
-  public void set_correct_answer(int correct_answer) {this.correct_answer = correct_answer;}
-  public void set_question(String question) {this.question = question;}
+  public int get_correct_answer() {
+    return correctAnswer;
+  }
+
+  public String get_question() {
+    return question;
+  }
+
+  public ArrayList<String> get_answer_list() {
+    return this.answers;
+  }
+
+  /**
+   * id is set.
+   * @param id is set
+   */
+  public void set_id(int id) {
+    this.id = id;
+  }
+
+  /**
+   * answer is set.
+   * @param answer is set
+   */
+  public void set_correct_answer(int answer) {
+    this.correctAnswer = answer;
+  }
+
+  public void set_question(String question) {
+    this.question = question;
+  }
+
+  /**
+   * fills the list with answers.
+   * @param answer List adds a new answer
+   */
   public void fill_answers(String answer) {
     try {
       this.answers.add(answer);
