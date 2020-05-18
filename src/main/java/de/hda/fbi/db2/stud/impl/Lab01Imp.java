@@ -21,8 +21,7 @@ public class Lab01Imp extends Lab01Data {
   @Override
   public List<Question> getQuestions() {
     List<Question> allQuest = new ArrayList<Question>();
-    for (Category elem: categories)
-    {
+    for (Category elem: categories) {
       allQuest.addAll(elem.get_questions());
     }
     return allQuest;
@@ -40,7 +39,7 @@ public class Lab01Imp extends Lab01Data {
     this.categories = new ArrayList<Category>();
     try {
       BufferedReader csvReader = new BufferedReader(new InputStreamReader(new FileInputStream(
-              System.getProperty("user.dir") + "/src/main/resources/Wissenstest_sample200.csv"), "UTF-8"
+          System.getProperty("user.dir") + "/src/main/resources/Wissenstest_sample200.csv"), "UTF-8"
       ));
       csvReader.readLine(); // consume first line with legend
       while ((row = csvReader.readLine()) != null) {
@@ -63,16 +62,12 @@ public class Lab01Imp extends Lab01Data {
         question.set_correct_answer(Integer.parseInt(data[6]));
 
         //create category if it doesnt exist
-        if(search_for_categories(data[7]) == false)
-        {
+        if(!search_for_categories(data[7])) {
           Category category = new Category(data[7]);
           System.out.println(data[7]);
           this.categories.add(category);
-          add_question(question, data[7]);
         }
-        else {
-          add_question(question, data[7]);
-        }
+        add_question(question, data[7]);
       }
 
       csvReader.close();
@@ -84,8 +79,7 @@ public class Lab01Imp extends Lab01Data {
 
   //method to check if a category is new
   public boolean search_for_categories(String category_name) {
-    for (Category elem: categories)
-    {
+    for (Category elem: categories) {
       if( elem.get_name().equals(category_name) ) {
         return true;
       }
@@ -96,9 +90,9 @@ public class Lab01Imp extends Lab01Data {
   //method to add a question to a category
   public void add_question(Question question, String category_name) {
     for (Category elem: categories) {
-        if (elem.get_name().equals(category_name)) {
-          elem.add_question(question);
-        }
+      if (elem.get_name().equals(category_name)) {
+        elem.add_question(question);
+      }
     }
   }
 

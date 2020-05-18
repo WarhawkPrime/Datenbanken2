@@ -3,7 +3,7 @@ package de.hda.fbi.db2.stud.entity;
 import java.util.*;
 
 public class Category {
-private
+  private
   String name;
   ArrayList<Question> questions;
 
