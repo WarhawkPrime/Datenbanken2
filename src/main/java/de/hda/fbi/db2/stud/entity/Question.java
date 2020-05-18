@@ -3,7 +3,7 @@ package de.hda.fbi.db2.stud.entity;
 import java.util.ArrayList;
 
 public class Question {
-private
+  private
   int id;
   int correct_answer;
   String question;
@@ -11,7 +11,7 @@ private
 
 
   public Question () {
-      answers = new ArrayList<String>();
+    answers = new ArrayList<String>();
   }
 
 
