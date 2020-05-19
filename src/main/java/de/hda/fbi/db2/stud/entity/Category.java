@@ -2,6 +2,7 @@ package de.hda.fbi.db2.stud.entity;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Category {
@@ -9,7 +10,7 @@ public class Category {
   private ArrayList<Question> questions;
 
   public Category(String name) {
-    questions = new ArrayList<Question>();
+    this.questions = new ArrayList<>();
     this.name = name;
   }
 
@@ -40,6 +41,7 @@ public class Category {
   }
 
   public List<Question> get_questions() {
+
     return this.questions;
   }
 

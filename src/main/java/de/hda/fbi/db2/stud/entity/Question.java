@@ -7,11 +7,12 @@ public class Question {
       int id;
   int correctAnswer;
   String question;
+  String category;
   ArrayList<String> answers;
 
 
   public Question() {
-    answers = new ArrayList<String>();
+    answers = new ArrayList<>();
   }
 
 
@@ -33,6 +34,10 @@ public class Question {
     return this.answers;
   }
 
+  public String get_category() {
+    return category;
+  }
+
   /**
    * id is set.
    * @param id is set
@@ -52,6 +57,16 @@ public class Question {
   public void set_question(String question) {
     this.question = question;
   }
+
+  /**
+   * set category.
+   * @param category is set
+   */
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+
 
   /**
    * fills the list with answers.

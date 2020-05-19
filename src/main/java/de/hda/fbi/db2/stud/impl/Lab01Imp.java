@@ -8,32 +8,40 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class Lab01Imp extends Lab01Data {
 
   //needed to store the categories
-  private ArrayList<Category> categories;
+  private HashMap<String, Category> categories;
 
   @Override
   public List<Question> getQuestions() {
-    List<Question> allQuest = new ArrayList<Question>();
-    for (Category elem: categories) {
-      allQuest.addAll(elem.get_questions());
+    List<Question> allQuest = new ArrayList<>();
+    Set set = categories.entrySet();
+    Iterator i = set.iterator();
+
+    while (i.hasNext()) {
+      Map.Entry category = (Map.Entry)i.next();
+      allQuest.addAll(categories.get(category.getKey()).get_questions());
     }
     return allQuest;
   }
 
   @Override
   public List<Category> getCategories() {
-
-    return categories;
+    List<Category> allCategories = new ArrayList<>(categories.values());
+    return allCategories;
   }
 
   @Override
   public void loadCsvFile(List<String[]> additionalCsvLines) {
     String row;
-    this.categories = new ArrayList<Category>();
+    this.categories = new HashMap<String, Category>();
     try {
       BufferedReader csvReader = new BufferedReader(new InputStreamReader(new FileInputStream(
           System.getProperty("user.dir") + "/src/main/resources/Wissenstest_sample200.csv"), "UTF-8"
@@ -57,12 +65,13 @@ public class Lab01Imp extends Lab01Data {
         question.fill_answers(data[4]);
         question.fill_answers(data[5]);
         question.set_correct_answer(Integer.parseInt(data[6]));
+        question.setCategory(data[7]);
 
         //create category if it doesnt exist
         if (!search_for_categories(data[7])) {
           Category category = new Category(data[7]);
           System.out.println(data[7]);
-          this.categories.add(category);
+          this.categories.put(category.get_name(), category);
         }
         add_question(question, data[7]);
       }
@@ -80,12 +89,7 @@ public class Lab01Imp extends Lab01Data {
    * @return returns a boolean value if a category is found
    */
   public boolean search_for_categories(String categoryName) {
-    for (Category elem: categories) {
-      if (elem.get_name().equals(categoryName)) {
-        return true;
-      }
-    }
-    return false;
+    return categories.containsKey(categoryName);
   }
 
   /**
@@ -94,11 +98,7 @@ public class Lab01Imp extends Lab01Data {
    * @param categoryName Category to add the queston to
    */
   public void add_question(Question question, String categoryName) {
-    for (Category elem: categories) {
-      if (elem.get_name().equals(categoryName)) {
-        elem.add_question(question);
-      }
-    }
+    categories.get(categoryName).add_question(question);
   }
 
 
