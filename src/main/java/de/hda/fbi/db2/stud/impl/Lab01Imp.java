@@ -70,17 +70,21 @@ public class Lab01Imp extends Lab01Data {
         //create category if it doesnt exist
         if (!search_for_categories(data[7])) {
           Category category = new Category(data[7]);
-          System.out.println(data[7]);
           this.categories.put(category.get_name(), category);
         }
         add_question(question, data[7]);
+        //Output Created Questions on console
+        System.out.println("Category: " + data[7] + "\tQ:" + data[1]
+                + "\n A1: " + data[2] + " A2: " + data[3] + " A3: " + data[4] + " A4: " + data[5]
+                + " Correct A: " + data[6]);
       }
 
       csvReader.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
-
+    System.out.println(this.categories.size() + " Categories created, "
+            + this.getQuestions().size() + " Questions created");
   }
 
   /**
