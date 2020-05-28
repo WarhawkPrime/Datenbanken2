@@ -1,12 +1,10 @@
 package de.hda.fbi.db2.stud.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OrderColumn;
+import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
+@Table(schema = "hamwil")
 public class Question {
   private
       @Id
