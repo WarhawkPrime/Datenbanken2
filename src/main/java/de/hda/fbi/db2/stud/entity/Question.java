@@ -7,14 +7,13 @@ public class Question {
       int id;
   int correctAnswer;
   String question;
-  String category;
+  Category category;
   ArrayList<String> answers;
 
 
   public Question() {
     answers = new ArrayList<>();
   }
-
 
 
   //========== getter and setter ==========
@@ -34,7 +33,7 @@ public class Question {
     return this.answers;
   }
 
-  public String get_category() {
+  public Category get_category() {
     return category;
   }
 
@@ -62,7 +61,7 @@ public class Question {
    * set category.
    * @param category is set
    */
-  public void setCategory(String category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 

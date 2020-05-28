@@ -65,13 +65,8 @@ public class Lab01Imp extends Lab01Data {
         question.fill_answers(data[4]);
         question.fill_answers(data[5]);
         question.set_correct_answer(Integer.parseInt(data[6]));
-        question.setCategory(data[7]);
+        question.setCategory(get_category_by_name(data[7]));
 
-        //create category if it doesnt exist
-        if (!search_for_categories(data[7])) {
-          Category category = new Category(data[7]);
-          this.categories.put(category.get_name(), category);
-        }
         add_question(question, data[7]);
         //Output Created Questions on console
         System.out.println("Category: " + data[7] + "\tQ:" + data[1]
@@ -103,6 +98,20 @@ public class Lab01Imp extends Lab01Data {
    */
   public void add_question(Question question, String categoryName) {
     categories.get(categoryName).add_question(question);
+  }
+
+  /**
+   * gets a category by its name.
+   * @param catName name of the category to be searched
+   * @return category with the searched name
+   */
+  public Category get_category_by_name(String catName) {
+    //create category if it doesnt exist
+    if (!search_for_categories(catName)) {
+      Category category = new Category(catName);
+      this.categories.put(category.get_name(), category);
+    }
+    return categories.get(catName);
   }
 
 
