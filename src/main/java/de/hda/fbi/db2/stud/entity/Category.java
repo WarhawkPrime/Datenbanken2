@@ -1,12 +1,22 @@
 package de.hda.fbi.db2.stud.entity;
 
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+
+@Entity
+@Table(schema = "hamwil")
 public class Category {
+  @Id
+  @GeneratedValue
+  private int id;
+  @Column( unique=true )
   private String name;
+  @OneToMany( mappedBy = "Question" )
   private ArrayList<Question> questions;
 
   public Category(String name) {

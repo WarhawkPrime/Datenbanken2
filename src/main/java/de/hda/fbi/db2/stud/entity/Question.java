@@ -1,13 +1,21 @@
 package de.hda.fbi.db2.stud.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import java.util.ArrayList;
 
+@Entity
 public class Question {
   private
+      @Id
       int id;
   int correctAnswer;
   String question;
+  @ManyToOne
   Category category;
+  @OrderColumn(name = "reihenfolge")
   ArrayList<String> answers;
 
 
