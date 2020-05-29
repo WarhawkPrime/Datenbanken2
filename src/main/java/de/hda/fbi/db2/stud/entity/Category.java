@@ -18,7 +18,9 @@ public class Category {
   @Column( unique=true )
   private String name;
   @OneToMany( mappedBy = "category" )
-  private ArrayList<Question> questions;
+  private List<Question> questions;
+
+  public Category(){};
 
   public Category(String name) {
     this.questions = new ArrayList<>();

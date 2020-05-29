@@ -2,6 +2,7 @@ package de.hda.fbi.db2.stud.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(schema = "hamwil")
@@ -13,9 +14,9 @@ public class Question {
   String question;
   @ManyToOne
   Category category;
-  @OrderColumn(name = "order")
+  @OrderBy
   @ElementCollection
-  ArrayList<String> answers;
+  List<String> answers;
 
 
   public Question() {
@@ -36,7 +37,7 @@ public class Question {
     return question;
   }
 
-  public ArrayList<String> get_answer_list() {
+  public List<String> get_answer_list() {
     return this.answers;
   }
 
