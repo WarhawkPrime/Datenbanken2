@@ -13,7 +13,8 @@ public class Question {
   String question;
   @ManyToOne
   Category category;
-  @OrderColumn(name = "reihenfolge")
+  @OrderColumn(name = "order")
+  @ElementCollection
   ArrayList<String> answers;
 
 

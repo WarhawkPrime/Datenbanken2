@@ -16,7 +16,7 @@ public class Category {
   private int id;
   @Column( unique=true )
   private String name;
-  @OneToMany( mappedBy = "Question" )
+  @OneToMany( mappedBy = "category" )
   private ArrayList<Question> questions;
 
   public Category(String name) {

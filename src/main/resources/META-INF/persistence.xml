@@ -7,7 +7,8 @@
     <persistence-unit name="default-postgresPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!-- put your entity-classes here -->
-
+        <class>Category</class>
+        <class>Question</class>
         <!-- this must be provided -->
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/" />
@@ -33,7 +34,8 @@
     <persistence-unit name="fbi-postgresPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!-- put your entity-classes here -->
-
+        <class>Category</class>
+        <class>Question</class>
         <!-- this must be provided -->
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://postgres.fbi.h-da.de:5432/st*-account" />
@@ -61,7 +63,8 @@
         <!-- PU for the following docker-base local environment https://github.com/stefantruehl/databases-lab-environment -->
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!-- put your entity-classes here -->
-
+        <class>Category</class>
+        <class>Question</class>
         <!-- this must be provided -->
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dbadmin" />
