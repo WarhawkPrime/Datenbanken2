@@ -11,6 +11,7 @@ import java.util.List;
 @Entity
 @Table(schema = "hamwil")
 public class Category {
+
   @Id
   @GeneratedValue
   private int id;
@@ -22,6 +23,14 @@ public class Category {
   public Category(String name) {
     this.questions = new ArrayList<>();
     this.name = name;
+  }
+
+  /**
+   * returns the pk.
+   * @return id
+   */
+  public int getId() {
+    return id;
   }
 
   /**
