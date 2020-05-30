@@ -1,26 +1,30 @@
 package de.hda.fbi.db2.stud.entity;
 
 
-import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-@Table(schema = "hamwil")
+@Table (schema = "hamwil")
 public class Category {
 
   @Id
   @GeneratedValue
   private int id;
-  @Column( unique=true )
+  @Column(unique = true)
   private String name;
-  @OneToMany( mappedBy = "category" )
+  @OneToMany(mappedBy = "category")
   private List<Question> questions;
 
-  public Category(){};
+  public Category() {
+
+  }
 
   public Category(String name) {
     this.questions = new ArrayList<>();

@@ -1,8 +1,14 @@
 package de.hda.fbi.db2.stud.entity;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+
 
 @Entity
 @Table(schema = "hamwil")
