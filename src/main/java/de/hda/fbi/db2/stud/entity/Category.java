@@ -2,7 +2,9 @@ package de.hda.fbi.db2.stud.entity;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,6 +74,37 @@ public class Category {
 
   public void set_name(String name) {
     this.name = name;
+  }
+  /*
+  overwriting the equals() and hashCode():
+  Objects that are equal according to the equals() method return the same hashCode value
+ */
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Category)) {
+      return false;
+    }
+
+    Category other = (Category) obj;
+
+    if (this.id != other.id) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + id;
+    result = 31 * result + name.hashCode();
+    return result;
   }
 
 
