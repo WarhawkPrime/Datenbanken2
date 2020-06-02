@@ -1,20 +1,34 @@
 package de.hda.fbi.db2.stud.entity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(schema = "hamwil")
 public class Question {
   private
+      @Id
       int id;
   int correctAnswer;
   String question;
-  String category;
-  ArrayList<String> answers;
+  @ManyToOne
+  Category category;
+  @OrderBy
+  @ElementCollection
+  List<String> answers;
 
 
   public Question() {
     answers = new ArrayList<>();
   }
-
 
 
   //========== getter and setter ==========
@@ -30,11 +44,11 @@ public class Question {
     return question;
   }
 
-  public ArrayList<String> get_answer_list() {
+  public List<String> get_answer_list() {
     return this.answers;
   }
 
-  public String get_category() {
+  public Category get_category() {
     return category;
   }
 
@@ -62,7 +76,7 @@ public class Question {
    * set category.
    * @param category is set
    */
-  public void setCategory(String category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 
@@ -79,5 +93,38 @@ public class Question {
       e.printStackTrace();
     }
   }
+
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Question)) {
+      return false;
+    }
+
+    Question other = (Question) obj;
+
+    if (!(other.question.equals(this.question) && other.id == id)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = 17;
+    result = 31 * result + id;
+    result = 31 * result + correctAnswer;
+    result = 31 * result + question.hashCode();
+    return result;
+  }
+
+
+
+
 
 }
