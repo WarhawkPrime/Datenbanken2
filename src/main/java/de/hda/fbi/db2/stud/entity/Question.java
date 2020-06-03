@@ -94,37 +94,20 @@ public class Question {
     }
   }
 
-
-
   @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (!(obj instanceof Question)) {
+    if (o == null || getClass() != o.getClass()) {
       return false;
     }
-
-    Question other = (Question) obj;
-
-    if (!(other.question.equals(this.question) && other.id == id)) {
-      return false;
-    }
-
-    return true;
+    Question question = (Question) o;
+    return id == question.id;
   }
 
   @Override
   public int hashCode() {
-    int result = 17;
-    result = 31 * result + id;
-    result = 31 * result + correctAnswer;
-    result = 31 * result + question.hashCode();
-    return result;
+    return Objects.hash(id);
   }
-
-
-
-
-
 }
