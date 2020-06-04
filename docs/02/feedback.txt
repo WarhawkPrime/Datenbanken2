@@ -1,0 +1,12 @@
+Ich habe keine gravierenden Mängel mehr an Ihrem Praktikum gefunden und in meiner Liste die Aufgabe als bestanden markiert.
+
+Viel Erfolg im nächsten Praktikum! \(^_^)/
+
+~~~~~~~~
+Anmerkung: Warum haben Sie in Answer 'answer' als "PK" in Ihrem Relationenmodell modelliert?
+	-> Bitte überdenken Sie bis zum nächsten Praktikumstermin, ob dies Ihre DB-Struktur wiederspiegelt und passen Sie Ihr Modell entsprechend an.
+	-> siehe Skript: Kapitel 2 (2-57) für weitere Informationen
+
+Anmerkung: In Ihrer Vorbereitung ist keine Annotationsliste eingecheckt. Bitte bis spätestens zum nächsten Praktikumstermin einchecken.
+
+Anmerkung: Bitte stellen Sie künftig immer sicher, dass die richtige controller-Methode in der Main einkommentiert ist!
