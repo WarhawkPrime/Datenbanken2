@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table (schema = "hamwil")
+@Table(schema = "hamwil")
 public class Category {
 
   @Id
