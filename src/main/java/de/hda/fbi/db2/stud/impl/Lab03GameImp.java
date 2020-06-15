@@ -4,6 +4,7 @@ import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.stud.entity.Category;
 import de.hda.fbi.db2.stud.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,18 +40,30 @@ public class Lab03GameImp extends Lab03Game {
   public List<?> interactiveGetQuestions() {
 
     Scanner input = new Scanner(System.in);
-    System.out.println("Wählen Sie mindestens 2 Kategorien aus: ");
+    List<Category> allCategorys = (List<Category>) lab01Data.getCategories();
 
-    for (Object elem: lab01Data.getCategories()) {
-      System.out.println( ((Category) elem).get_name() );
+    for (Category elem: allCategorys) {
+      System.out.println( elem.get_name() );
     }
 
+    System.out.println("Wählen Sie mindestens 2 Kategorien aus geben sie diese durch Komma's getrennt an: ");
+    String Questions = input.nextLine();
+    String[] splitStrings = Questions.split(",");
+    List<Category> parsedCats = new ArrayList<Category>();
 
+    for (String elem: splitStrings
+         ) {
+     parsedCats.add(allCategorys.get(Integer.parseInt(elem)));
+    }
 
-    lab01Data.getCategories();
+    System.out.println("Wie viele Fragen möchten sie pro Category haben? :");
+    String inputAmoutofQuestions = input.nextLine();
+    int AmountOfQuestions = Integer.parseInt(inputAmoutofQuestions);
 
+    input.close();
 
-    return null;
+    return this.getQuestions(parsedCats, AmountOfQuestions);
+
   }
 
   @Override
