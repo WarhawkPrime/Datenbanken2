@@ -24,7 +24,6 @@ public class Lab03GameImp extends Lab03Game {
     Scanner input = new Scanner(System.in);
     System.out.println("Hier können Sie den Namen auswählen : ");
     String playerName = input.nextLine();
-    input.close();
 
     Player player = new Player(playerName);
 
@@ -33,6 +32,10 @@ public class Lab03GameImp extends Lab03Game {
 
   @Override
   public List<?> getQuestions(List<?> categories, int amountOfQuestionsForCategory) {
+    for (Category elem: (List<Category>)categories
+         ) {
+      System.out.println(elem.get_name());
+    }
     return null;
   }
 
@@ -42,8 +45,10 @@ public class Lab03GameImp extends Lab03Game {
     Scanner input = new Scanner(System.in);
     List<Category> allCategorys = (List<Category>) lab01Data.getCategories();
 
+    int counter = 0;
     for (Category elem: allCategorys) {
-      System.out.println( elem.get_name() );
+      System.out.println(counter + ": " + elem.get_name() );
+      counter++;
     }
 
     System.out.println("Wählen Sie mindestens 2 Kategorien aus geben sie diese durch Komma's getrennt an: ");
@@ -53,6 +58,7 @@ public class Lab03GameImp extends Lab03Game {
 
     for (String elem: splitStrings
          ) {
+      elem = elem.replaceAll("[^0-9]", "");
      parsedCats.add(allCategorys.get(Integer.parseInt(elem)));
     }
 
@@ -60,7 +66,6 @@ public class Lab03GameImp extends Lab03Game {
     String inputAmoutofQuestions = input.nextLine();
     int AmountOfQuestions = Integer.parseInt(inputAmoutofQuestions);
 
-    input.close();
 
     return this.getQuestions(parsedCats, AmountOfQuestions);
 
