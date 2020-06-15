@@ -19,8 +19,8 @@ public class Question {
   @OrderBy
   @ElementCollection
   List<String> answers;
-  @OneToMany(mappedBy = "question")
-  private List<Game_Question> game_questions;
+  //@OneToMany(mappedBy = "question")
+  //private List<Game_Question> game_questions;
 
 
   public Question() {

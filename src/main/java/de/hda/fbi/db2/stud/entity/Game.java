@@ -2,6 +2,7 @@ package de.hda.fbi.db2.stud.entity;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,10 @@ public class Game {
     @ManyToOne
     Player player;
 
-    LocalTime start;
-    LocalTime end;
+    @Temporal(TemporalType.DATE)
+    Date start;
+    @Temporal(TemporalType.DATE)
+    Date end;
 
     //liste der Kategorien, Liste der Fragen und ausgewählten Antworten
     @OneToMany(mappedBy = "game")

@@ -1,13 +1,15 @@
 package de.hda.fbi.db2.stud.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(schema = "hamwil")
 public class Game_Question {
+
+    @Id
+    @GeneratedValue
+    private int id;
 
     @ManyToOne
     Question question;
