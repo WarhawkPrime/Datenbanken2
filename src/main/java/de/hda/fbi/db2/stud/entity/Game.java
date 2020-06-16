@@ -59,11 +59,11 @@ public class Game {
   }
 
   public void setStarttime(Date starttime) {
-    this.starttime = starttime;
+    this.starttime = (Date) starttime.clone();
   }
 
   public void setEndtime(Date endtime) {
-    this.endtime = endtime;
+    this.endtime = (Date) endtime.clone();
   }
 
   @Override

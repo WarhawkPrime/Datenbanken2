@@ -4,10 +4,7 @@ import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.stud.entity.*;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Lab03GameImp extends Lab03Game {
 
@@ -22,7 +19,7 @@ public class Lab03GameImp extends Lab03Game {
   @Override
   public Object interactiveGetOrCreatePlayer() {
 
-    Scanner input = new Scanner(System.in);
+    Scanner input = new Scanner(System.in, "UTF-8");
     System.out.println("Hier können Sie den Namen auswählen : ");
     String playerName = input.nextLine();
 
@@ -42,10 +39,11 @@ public class Lab03GameImp extends Lab03Game {
       }
       else{
         List<Integer> randomNums = new ArrayList<>();
+        Random ran = new Random();
         for(int i=0 ; i < amountOfQuestionsForCategory; i++){
-          int newRandom = (int) (Math.random() * elem.get_questions().size());
+          int newRandom = ran.nextInt(elem.get_questions().size());
           while(randomNums.contains(newRandom)) {
-            newRandom = (int) (Math.random() * elem.get_questions().size());        // make sure there are no numbers that are already chosen
+            newRandom = ran.nextInt(elem.get_questions().size());        // make sure there are no numbers that are already chosen
           }
 
           randomNums.add(newRandom);
@@ -61,7 +59,7 @@ public class Lab03GameImp extends Lab03Game {
   @Override
   public List<?> interactiveGetQuestions() {
 
-    Scanner input = new Scanner(System.in);
+    Scanner input = new Scanner(System.in, "UTF-8");
     List<Category> allCategorys = (List<Category>) lab01Data.getCategories();
 
     int counter = 0;
@@ -104,7 +102,8 @@ public class Lab03GameImp extends Lab03Game {
     cGame.setStarttime(new Date());
     for (GameQuestion elem: cGame.getGameQuestions()) {
 
-      int givenAnswer = (int) (Math.random() * 4) +1;
+      Random ran = new Random();
+      int givenAnswer = ran.nextInt(4)+1;
 
       if (givenAnswer == elem.getQuestion().get_correct_answer()) {
         elem.setGiven_answer(true);
@@ -123,7 +122,7 @@ public class Lab03GameImp extends Lab03Game {
     cGame.setStarttime(new Date());
     for (GameQuestion elem: cGame.getGameQuestions()) {
 
-      Scanner input = new Scanner(System.in);
+      Scanner input = new Scanner(System.in, "UTF-8");
 
       System.out.println("\n\n\nQ: " + elem.getQuestion().get_question() + "\n");
 
@@ -167,7 +166,7 @@ public class Lab03GameImp extends Lab03Game {
       em.persist(elem);
     }
 
-    if (((Game) game).getPlayer() instanceof Player && ((Game) game).getPlayer() != null) {
+    if (((Game) game).getPlayer() != null) {
       em.persist(((Game) game).getPlayer());
     }
     else {
@@ -175,7 +174,7 @@ public class Lab03GameImp extends Lab03Game {
     }
 
 
-    if (game instanceof Game && game != null) {
+    if (game instanceof Game ) {
       em.persist(game);
     }
     else {
