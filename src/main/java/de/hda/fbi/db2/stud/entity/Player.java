@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Player {
 
     @Id
-    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "player")

@@ -27,10 +27,11 @@ public class Game {
   @ManyToOne
   Player player;
 
-  @Temporal(TemporalType.DATE)
-  Date start;
-  @Temporal(TemporalType.DATE)
-  Date end;
+  @Temporal(TemporalType.TIMESTAMP)
+  Date starttime;
+
+  @Temporal(TemporalType.TIMESTAMP)
+  Date endtime;
 
   @OneToMany(mappedBy = "game")
   private List<GameQuestion> gameQuestions;
@@ -57,6 +58,13 @@ public class Game {
     }
   }
 
+  public void setStarttime(Date starttime) {
+    this.starttime = starttime;
+  }
+
+  public void setEndtime(Date endtime) {
+    this.endtime = endtime;
+  }
 
   @Override
   public boolean equals(Object o) {

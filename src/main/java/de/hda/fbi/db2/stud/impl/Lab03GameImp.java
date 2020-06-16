@@ -5,6 +5,7 @@ import de.hda.fbi.db2.stud.entity.*;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -100,6 +101,7 @@ public class Lab03GameImp extends Lab03Game {
   public void playGame(Object game) {
 
     Game cGame = (Game) game;
+    cGame.setStarttime(new Date());
     for (GameQuestion elem: cGame.getGameQuestions()) {
 
       int givenAnswer = (int) (Math.random() * 4) +1;
@@ -112,11 +114,13 @@ public class Lab03GameImp extends Lab03Game {
       }
     }
 
+    cGame.setEndtime(new Date());
   }
 
   @Override
   public void interactivePlayGame(Object game) {
     Game cGame = (Game) game;
+    cGame.setStarttime(new Date());
     for (GameQuestion elem: cGame.getGameQuestions()) {
 
       Scanner input = new Scanner(System.in);
@@ -140,6 +144,7 @@ public class Lab03GameImp extends Lab03Game {
         elem.setGiven_answer(false);
       }
     }
+    cGame.setEndtime(new Date());
 
   }
 
