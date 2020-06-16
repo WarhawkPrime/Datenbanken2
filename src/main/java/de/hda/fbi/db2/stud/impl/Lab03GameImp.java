@@ -1,8 +1,7 @@
 package de.hda.fbi.db2.stud.impl;
 
 import de.hda.fbi.db2.api.Lab03Game;
-import de.hda.fbi.db2.stud.entity.Category;
-import de.hda.fbi.db2.stud.entity.Player;
+import de.hda.fbi.db2.stud.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +31,29 @@ public class Lab03GameImp extends Lab03Game {
 
   @Override
   public List<?> getQuestions(List<?> categories, int amountOfQuestionsForCategory) {
-    for (Category elem: (List<Category>)categories
-         ) {
+  List<Question> gameQuestions = new ArrayList<Question>();
+    for (Category elem: (List<Category>)categories) {
       System.out.println(elem.get_name());
+
+      if(elem.get_questions().size() <= amountOfQuestionsForCategory){
+        gameQuestions.addAll(elem.get_questions());
+      }
+      else{
+        List<Integer> randomNums = new ArrayList<>();
+        for(int i=0 ; i < amountOfQuestionsForCategory; i++){
+          int newRandom = (int) (Math.random() * elem.get_questions().size());
+          while(randomNums.contains(newRandom)) {
+            newRandom = (int) (Math.random() * elem.get_questions().size());        // make sure there are no numbers that are already chosen
+          }
+
+          randomNums.add(newRandom);
+
+          gameQuestions.add(elem.get_question(randomNums.get(i)));
+        }
+      }
+
     }
-    return null;
+    return gameQuestions;
   }
 
   @Override
@@ -73,7 +90,9 @@ public class Lab03GameImp extends Lab03Game {
 
   @Override
   public Object createGame(Object player, List<?> questions) {
-    return null;
+    Game g = new Game(player);
+    g.setGame_questions(questions);
+    return g;
   }
 
   @Override
@@ -83,7 +102,17 @@ public class Lab03GameImp extends Lab03Game {
 
   @Override
   public void interactivePlayGame(Object game) {
+    Game cGame = (Game) game;
+    for (Game_Question elem: cGame.getGame_questions()
+         ) {
+      System.out.println("\n\n\nQ: " + elem.getQuestion().get_question() + "\n");
+      int co=0;
+      for (String answerElem: elem.getQuestion().get_answer_list()
+           ) {
+        System.out.println("A" + co + ": " + answerElem);
+      }
 
+    }
   }
 
   @Override
