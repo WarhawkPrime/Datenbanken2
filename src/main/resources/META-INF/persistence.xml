@@ -37,6 +37,9 @@
 
         <class>de.hda.fbi.db2.stud.entity.Category</class>
         <class>de.hda.fbi.db2.stud.entity.Question</class>
+        <class>de.hda.fbi.db2.stud.entity.Game</class>
+        <class>de.hda.fbi.db2.stud.entity.Player</class>
+        <class>de.hda.fbi.db2.stud.entity.GameQuestion</class>
 
         <!-- this must be provided -->
         <properties>

@@ -1,47 +1,83 @@
 package de.hda.fbi.db2.stud.entity;
 
-import javax.persistence.*;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(schema = "hamwil")
 public class Game {
 
-    @Id
-    @GeneratedValue
-    private int id;
 
-    @ManyToOne
-    Player player;
 
-    @Temporal(TemporalType.DATE)
-    Date start;
-    @Temporal(TemporalType.DATE)
-    Date end;
+  @Id
+  @GeneratedValue
+  private int id;
 
-    //liste der Kategorien, Liste der Fragen und ausgewählten Antworten
-    @OneToMany(mappedBy = "game")
-    private List<Game_Question> game_questions;
+  @ManyToOne
+  Player player;
 
-    public Game(){};
+  @Temporal(TemporalType.DATE)
+  Date start;
+  @Temporal(TemporalType.DATE)
+  Date end;
 
-    public Game(Object player){
-        this.player=(Player) player;
-        game_questions = new ArrayList<Game_Question>();
+  @OneToMany(mappedBy = "game")
+  private List<GameQuestion> gameQuestions;
+
+  public Game() {}
+
+  public Game(Object player) {
+    this.player = (Player) player;
+    gameQuestions = new ArrayList<GameQuestion>();
+  }
+
+  public List<GameQuestion> getGameQuestions() {
+    return gameQuestions;
+  }
+
+  /**
+   * setzt die game_questions.
+   * @param questions Liste von questions
+   */
+  public void setGame_questions(List<?> questions) {
+    for (Question elem: (List<Question>) questions) {
+      GameQuestion g = new GameQuestion(this, elem);
+      gameQuestions.add(g);
     }
+  }
 
-    public List<Game_Question> getGame_questions() {
-        return game_questions;
-    }
 
-    public void setGame_questions(List<?> questions) {
-        for (Question elem: (List<Question>) questions
-        ) {
-            Game_Question g = new Game_Question(this, elem);
-            game_questions.add(g);
-        }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Game game = (Game) o;
+    return id == game.id;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id);
+  }
+
+  public Player getPlayer() {
+    return player;
+  }
+
+
 }

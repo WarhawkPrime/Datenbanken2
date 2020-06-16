@@ -3,6 +3,7 @@ package de.hda.fbi.db2.stud.impl;
 import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.stud.entity.*;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -98,25 +99,86 @@ public class Lab03GameImp extends Lab03Game {
   @Override
   public void playGame(Object game) {
 
+    Game cGame = (Game) game;
+    for (GameQuestion elem: cGame.getGameQuestions()) {
+
+      int givenAnswer = (int) (Math.random() * 4) +1;
+
+      if (givenAnswer == elem.getQuestion().get_correct_answer()) {
+        elem.setGiven_answer(true);
+      }
+      else {
+        elem.setGiven_answer(false);
+      }
+    }
+
   }
 
   @Override
   public void interactivePlayGame(Object game) {
     Game cGame = (Game) game;
-    for (Game_Question elem: cGame.getGame_questions()
-         ) {
+    for (GameQuestion elem: cGame.getGameQuestions()) {
+
+      Scanner input = new Scanner(System.in);
+
       System.out.println("\n\n\nQ: " + elem.getQuestion().get_question() + "\n");
-      int co=0;
-      for (String answerElem: elem.getQuestion().get_answer_list()
-           ) {
+
+      int co=1;
+      for (String answerElem: elem.getQuestion().get_answer_list()) {
         System.out.println("A" + co + ": " + answerElem);
+        co++;
       }
 
+      int givenAnswer = Integer.parseInt(input.nextLine());
+
+      if (givenAnswer == elem.getQuestion().get_correct_answer()) {
+        System.out.println("Hurra! Ihre Antwort ist korrekt");
+        elem.setGiven_answer(true);
+      }
+      else {
+        System.out.println("Schade! Ihre Antwort ist leider falsch");
+        elem.setGiven_answer(false);
+      }
     }
+
   }
 
   @Override
   public void persistGame(Object game) {
+    EntityManager em = this.lab02EntityManager.getEntityManager();
+    em.getTransaction().begin();
 
+
+    List<GameQuestion> ga_que;
+    if (!((Game) game).getGameQuestions().isEmpty()
+            && ((Game) game).getGameQuestions().get(0) instanceof GameQuestion) {
+
+      ga_que = (List<GameQuestion>) ((Game) game).getGameQuestions();
+    } else {
+      throw new IllegalArgumentException("Liste ist leer oder enthält falschen typen");
+    }
+
+    for (GameQuestion elem: ga_que) {
+      em.persist(elem);
+    }
+
+    if (((Game) game).getPlayer() instanceof Player && ((Game) game).getPlayer() != null) {
+      em.persist(((Game) game).getPlayer());
+    }
+    else {
+      throw new IllegalArgumentException("Player is null or is no instanceof Player");
+    }
+
+
+    if (game instanceof Game && game != null) {
+      em.persist(game);
+    }
+    else {
+      throw new IllegalArgumentException("Game is null or is no instanceof Game");
+    }
+
+    em.getTransaction().commit();
+    em.close();
   }
+
 }
