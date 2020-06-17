@@ -74,16 +74,25 @@ public class Lab03GameImp extends Lab03Game {
       counter++;
     }
 
-    System.out.println("Wählen Sie mindestens 2 Kategorien aus,"
-            + " geben sie diese durch Komma's getrennt an: ");
-    String questions = input.nextLine();
-    String[] splitStrings = questions.split(",");
     List<Category> parsedCats = new ArrayList<Category>();
+    boolean accurateCat = false;
+    do {
+      parsedCats.clear();
+      System.out.println("Wählen Sie mindestens 2 Kategorien aus,"
+              + " geben sie diese durch Komma's getrennt an: ");
+      String questions = input.nextLine();
+      String[] splitStrings = questions.split(",");
 
-    for (String elem: splitStrings) {
-      elem = elem.replaceAll("[^0-9]", "");
-      parsedCats.add(allCategorys.get(Integer.parseInt(elem)));
-    }
+      for (String elem : splitStrings) {
+        elem = elem.replaceAll("[^0-9]", "");
+        parsedCats.add(allCategorys.get(Integer.parseInt(elem)));
+      }
+      if (parsedCats.size() >= 2) {
+        accurateCat = true;
+      } else {
+        System.out.println("Sie haben keine 2 Kategorien angegeben\n");
+      }
+    } while (!accurateCat);
 
     System.out.println("Wie viele Fragen möchten sie pro Category haben? :");
     String inputAmoutofQuestions = input.nextLine();
