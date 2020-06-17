@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(schema = "hamwil")
 public class Question {
@@ -24,6 +23,8 @@ public class Question {
   @OrderBy
   @ElementCollection
   List<String> answers;
+  //@OneToMany(mappedBy = "question")
+  //private List<Game_Question> game_questions;
 
 
   public Question() {
