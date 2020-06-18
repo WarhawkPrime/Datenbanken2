@@ -1,26 +1,47 @@
 package de.hda.fbi.db2.stud.impl;
 
 import de.hda.fbi.db2.api.Lab03Game;
+import de.hda.fbi.db2.controller.Controller;
 import de.hda.fbi.db2.stud.entity.Category;
 import de.hda.fbi.db2.stud.entity.Game;
 import de.hda.fbi.db2.stud.entity.GameQuestion;
 import de.hda.fbi.db2.stud.entity.Player;
 import de.hda.fbi.db2.stud.entity.Question;
-import  java.util.ArrayList;
-import  java.util.Date;
-import  java.util.List;
-import  java.util.Random;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 
+
 public class Lab03GameImp extends Lab03Game {
+
+  private HashMap<String, Player> hashPlayers = new HashMap<String, Player>();
+
 
   @Override
   public Object getOrCreatePlayer(String playerName) {
 
-    Player player = new Player(playerName);
+    EntityManager emm = this.lab02EntityManager.getEntityManager();
+    emm.getTransaction().begin();
 
-    return player;
+    List<Player> players = emm.createQuery("SELECT p FROM Player p").getResultList();
+
+    emm.close();
+
+    for (Iterator i = players.iterator(); i.hasNext();) {
+      Player cm = (Player) i.next();
+      hashPlayers.put(cm.getName(), cm);
+    }
+
+    if (hashPlayers.containsKey(playerName)) {
+      return hashPlayers.get(playerName);
+    } else {
+      return new Player(playerName);
+    }
   }
 
   @Override
@@ -30,9 +51,8 @@ public class Lab03GameImp extends Lab03Game {
     System.out.println("Hier können Sie den Namen auswählen : ");
     String playerName = input.nextLine();
 
-    Player player = new Player(playerName);
+    return this.getOrCreatePlayer(playerName);
 
-    return player;
   }
 
   @Override
@@ -180,7 +200,12 @@ public class Lab03GameImp extends Lab03Game {
     }
 
     if (((Game) game).getPlayer() != null) {
-      em.persist(((Game) game).getPlayer());
+
+      if (!hashPlayers.containsKey(((Game) game).getPlayer().getName())) {
+        em.persist(((Game) game).getPlayer());
+      }
+
+
     } else {
       throw new IllegalArgumentException("Player is null or is no instanceof Player");
     }
