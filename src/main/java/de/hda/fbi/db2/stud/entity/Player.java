@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(schema = "hamwil")
 public class Player {
 
+
   @Id
   private String name;
 
@@ -22,6 +23,10 @@ public class Player {
 
   public Player(String givenName) {
     this.name = givenName;
+  }
+
+  public String getName() {
+    return name;
   }
 
   @Override
