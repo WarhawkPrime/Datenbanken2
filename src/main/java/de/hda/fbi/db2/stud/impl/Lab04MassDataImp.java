@@ -19,7 +19,6 @@ public class Lab04MassDataImp extends Lab04MassData {
 
       Object player = lab03Game.getOrCreatePlayer(String.valueOf(playerloop));
 
-
       for(int gameloop=0 ; gameloop<100 ; gameloop++) {
 
         List<Object> categories = new ArrayList<>();

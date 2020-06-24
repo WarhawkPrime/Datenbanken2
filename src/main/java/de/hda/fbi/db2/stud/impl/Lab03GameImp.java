@@ -28,19 +28,30 @@ public class Lab03GameImp extends Lab03Game {
     EntityManager emm = this.lab02EntityManager.getEntityManager();
     emm.getTransaction().begin();
 
-    List<Player> players = emm.createQuery("SELECT p FROM Player p").getResultList();
+    if(hashPlayers.size() == 0) {
 
-    emm.close();
 
-    for (Iterator i = players.iterator(); i.hasNext();) {
-      Player cm = (Player) i.next();
-      hashPlayers.put(cm.getName(), cm);
+
+      List<Player> players = emm.createQuery("SELECT p FROM Player p").getResultList();
+
+
+      for (Iterator i = players.iterator(); i.hasNext(); ) {
+        Player cm = (Player) i.next();
+        hashPlayers.put(cm.getName(), cm);
+      }
     }
 
     if (hashPlayers.containsKey(playerName)) {
+      emm.close();
       return hashPlayers.get(playerName);
     } else {
-      return new Player(playerName);
+
+      Player p = new Player(playerName);
+      emm.persist(p);
+      emm.getTransaction().commit();
+      hashPlayers.put(p.getName(), p);
+      emm.close();
+      return p;
     }
   }
 
@@ -59,7 +70,7 @@ public class Lab03GameImp extends Lab03Game {
   public List<?> getQuestions(List<?> categories, int amountOfQuestionsForCategory) {
     List<Question> gameQuestions = new ArrayList<Question>();
     for (Category elem: (List<Category>)categories) {
-      System.out.println(elem.get_name());
+      //System.out.println(elem.get_name());
 
       if (elem.get_questions().size() <= amountOfQuestionsForCategory) {
         gameQuestions.addAll(elem.get_questions());
@@ -199,6 +210,7 @@ public class Lab03GameImp extends Lab03Game {
       em.persist(elem);
     }
 
+    /*
     if (((Game) game).getPlayer() != null) {
 
       if (!hashPlayers.containsKey(((Game) game).getPlayer().getName())) {
@@ -209,7 +221,7 @@ public class Lab03GameImp extends Lab03Game {
     } else {
       throw new IllegalArgumentException("Player is null or is no instanceof Player");
     }
-
+    */
 
     if (game instanceof Game) {
       em.persist(game);

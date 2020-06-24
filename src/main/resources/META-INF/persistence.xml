@@ -8,13 +8,18 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <!-- put your entity-classes here -->
 
+        <class>de.hda.fbi.db2.stud.entity.Category</class>
+        <class>de.hda.fbi.db2.stud.entity.Question</class>
+        <class>de.hda.fbi.db2.stud.entity.Game</class>
+        <class>de.hda.fbi.db2.stud.entity.Player</class>
+        <class>de.hda.fbi.db2.stud.entity.GameQuestion</class>
 
         <!-- this must be provided -->
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/" />
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="javax.persistence.jdbc.user" value="user" />
-            <property name="javax.persistence.jdbc.password" value="password" />
+            <property name="javax.persistence.jdbc.user" value="postgres" />
+            <property name="javax.persistence.jdbc.password" value="Xeno" />
 
             <!--<property name="javax.persistence.schema-generation.database.action" value="none"/>-->
             <!--<property name="javax.persistence.schema-generation.database.action" value="create"/>-->
