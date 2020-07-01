@@ -29,7 +29,7 @@ public class Lab03GameImp extends Lab03Game {
     EntityManager emM = this.lab02EntityManager.getEntityManager();
     emM.getTransaction().begin();
 
-    if(hashPlayers.size() == 0) {
+    if (hashPlayers.size() == 0) {
 
       List<Player> players = emM.createQuery("SELECT p FROM Player p").getResultList();
 

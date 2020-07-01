@@ -6,10 +6,13 @@ import de.hda.fbi.db2.api.Lab04MassData;
 import de.hda.fbi.db2.stud.entity.Game;
 import de.hda.fbi.db2.stud.entity.GameQuestion;
 import de.hda.fbi.db2.stud.entity.Player;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import java.util.*;
+
+
 
 public class Lab04MassDataImp extends Lab04MassData {
 
@@ -17,23 +20,25 @@ public class Lab04MassDataImp extends Lab04MassData {
   public void createMassData() {
 
     EntityManager emm = this.lab02EntityManager.getEntityManager();
+
     EntityTransaction tr = emm.getTransaction();
 
 
-    for(int playerloop=0 ; playerloop<10000 ; playerloop++) {
+    for (int playerloop = 0; playerloop < 10000; playerloop++) {
+      tr.begin();
+      Player player = new Player(Integer.toString(playerloop));
+      emm.persist(player);
 
-        tr.begin();
-        Player player = new Player( Integer.toString(playerloop) );
-        emm.persist(player);
-
-      for(int gameloop=0 ; gameloop<100 ; gameloop++) {
+      for (int gameloop = 0; gameloop < 100; gameloop++) {
 
 
         List<Object> categories = new ArrayList<>();
 
         Random ran = new Random();
-        for(int catloop = 0 ; catloop <= ( 4 + ran.nextInt(2 )) ; catloop++)            //5-7
-          categories.add(lab01Data.getCategories().get( ran.nextInt( lab01Data.getCategories().size() )));
+        for (int catloop = 0; catloop <= (4 + ran.nextInt(2)); catloop++) {            //5-7
+          categories.add(lab01Data.getCategories().get(
+                  ran.nextInt(lab01Data.getCategories().size())));
+        }
 
         List<?> questions = lab03Game.getQuestions(categories, (2 + ran.nextInt(2)));
         Object game = lab03Game.createGame(player, questions);
