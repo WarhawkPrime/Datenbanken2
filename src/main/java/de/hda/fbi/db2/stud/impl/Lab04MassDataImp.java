@@ -18,12 +18,11 @@ public class Lab04MassDataImp extends Lab04MassData {
 
     EntityManager emm = this.lab02EntityManager.getEntityManager();
     EntityTransaction tr = emm.getTransaction();
-    tr.begin();
 
 
     for(int playerloop=0 ; playerloop<10000 ; playerloop++) {
 
-
+        tr.begin();
         Player player = new Player( Integer.toString(playerloop) );
         emm.persist(player);
 
@@ -72,11 +71,9 @@ public class Lab04MassDataImp extends Lab04MassData {
 
 
       }
-      player = null;
+      tr.commit();
+      emm.clear();
     }
-
-    tr.commit();
-    emm.clear();
     emm.close();
   }
 }
