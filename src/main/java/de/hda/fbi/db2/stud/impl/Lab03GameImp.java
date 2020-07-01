@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 
+
 public class Lab03GameImp extends Lab03Game {
 
   private HashMap<String, Player> hashPlayers = new HashMap<String, Player>();
@@ -49,6 +50,7 @@ public class Lab03GameImp extends Lab03Game {
       Player p = new Player(playerName);
       hashPlayers.put(p.getName(), p);
       emM.persist(p);
+      //emM.flush();
       emM.getTransaction().commit();
 
       //emM.close();
@@ -111,7 +113,6 @@ public class Lab03GameImp extends Lab03Game {
 
     EntityManager em = this.lab02EntityManager.getEntityManager();
     em.getTransaction().begin();
-
 
 
     Query countp = em.createQuery("SELECT COUNT(p) FROM Player p");
@@ -244,3 +245,5 @@ public class Lab03GameImp extends Lab03Game {
   }
 
 }
+
+
