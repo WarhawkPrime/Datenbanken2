@@ -20,6 +20,8 @@ public class Lab04MassDataImp extends Lab04MassData {
   @Override
   public void createMassData() {
 
+    var before = System.currentTimeMillis();
+
     EntityManager emm = this.lab02EntityManager.getEntityManager();
     EntityTransaction tr = emm.getTransaction();
 
@@ -30,6 +32,7 @@ public class Lab04MassDataImp extends Lab04MassData {
       Player cm = (Player) i.next();
       hashPlayers.put(cm.getName(), cm);
     }
+
 
     for (int playerloop = 0; playerloop < 10000; playerloop++) {
 
@@ -85,6 +88,9 @@ public class Lab04MassDataImp extends Lab04MassData {
       tr.commit();
       emm.clear();
     }
+    var after = System.currentTimeMillis();
+    var elaTime = (after-before)/1000;
+    System.out.println("Time to persist: " + (int) (elaTime/60) + "min " + elaTime%60 + "s");
     emm.close();
   }
 }
