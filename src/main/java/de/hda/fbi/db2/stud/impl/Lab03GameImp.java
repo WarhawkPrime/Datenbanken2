@@ -15,32 +15,46 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 
 
 public class Lab03GameImp extends Lab03Game {
 
   private HashMap<String, Player> hashPlayers = new HashMap<String, Player>();
 
-
   @Override
   public Object getOrCreatePlayer(String playerName) {
 
-    EntityManager emm = this.lab02EntityManager.getEntityManager();
-    emm.getTransaction().begin();
+    EntityManager emM = this.lab02EntityManager.getEntityManager();
+    emM.getTransaction().begin();
 
-    List<Player> players = emm.createQuery("SELECT p FROM Player p").getResultList();
+    if (hashPlayers.size() == 0) {
 
-    emm.close();
+      List<Player> players = emM.createQuery("SELECT p FROM Player p").getResultList();
 
-    for (Iterator i = players.iterator(); i.hasNext();) {
-      Player cm = (Player) i.next();
-      hashPlayers.put(cm.getName(), cm);
+      //emM.close();
+
+      for (Iterator i = players.iterator(); i.hasNext(); ) {
+        Player cm = (Player) i.next();
+        hashPlayers.put(cm.getName(), cm);
+      }
     }
 
     if (hashPlayers.containsKey(playerName)) {
+
+      //emM.close();
       return hashPlayers.get(playerName);
     } else {
-      return new Player(playerName);
+
+      Player p = new Player(playerName);
+      hashPlayers.put(p.getName(), p);
+      emM.persist(p);
+      //emM.flush();
+      emM.getTransaction().commit();
+
+      //emM.close();
+      return p;
     }
   }
 
@@ -59,7 +73,7 @@ public class Lab03GameImp extends Lab03Game {
   public List<?> getQuestions(List<?> categories, int amountOfQuestionsForCategory) {
     List<Question> gameQuestions = new ArrayList<Question>();
     for (Category elem: (List<Category>)categories) {
-      System.out.println(elem.get_name());
+      //System.out.println(elem.get_name());
 
       if (elem.get_questions().size() <= amountOfQuestionsForCategory) {
         gameQuestions.addAll(elem.get_questions());
@@ -94,6 +108,25 @@ public class Lab03GameImp extends Lab03Game {
       counter++;
     }
 
+
+    System.out.println("query begins:");
+
+    EntityManager em = this.lab02EntityManager.getEntityManager();
+    em.getTransaction().begin();
+
+
+    Query countp = em.createQuery("SELECT COUNT(p) FROM Player p");
+    Query countg = em.createQuery("SELECT COUNT(g) FROM Game g");
+    Query countgq = em.createQuery("SELECT COUNT(gq) FROM GameQuestion gq");
+
+    String p = countp.getSingleResult().toString();
+    String g = countg.getSingleResult().toString();
+    String gq = countgq.getSingleResult().toString();
+
+    System.out.println("Count Player:" +  p);
+    System.out.println("Count Games:" +  g);
+    System.out.println("Count GameQuestion:" +  gq);
+
     List<Category> parsedCats = new ArrayList<Category>();
     boolean accurateCat = false;
     do {
@@ -117,7 +150,6 @@ public class Lab03GameImp extends Lab03Game {
     System.out.println("Wie viele Fragen möchten sie pro Category haben? :");
     String inputAmoutofQuestions = input.nextLine();
     int amountOfQuestions = Integer.parseInt(inputAmoutofQuestions);
-
 
     return this.getQuestions(parsedCats, amountOfQuestions);
 
@@ -160,6 +192,8 @@ public class Lab03GameImp extends Lab03Game {
 
       System.out.println("\n\n\nQ: " + elem.getQuestion().get_question() + "\n");
 
+
+
       int co = 1;
       for (String answerElem: elem.getQuestion().get_answer_list()) {
         System.out.println("A" + co + ": " + answerElem);
@@ -199,18 +233,6 @@ public class Lab03GameImp extends Lab03Game {
       em.persist(elem);
     }
 
-    if (((Game) game).getPlayer() != null) {
-
-      if (!hashPlayers.containsKey(((Game) game).getPlayer().getName())) {
-        em.persist(((Game) game).getPlayer());
-      }
-
-
-    } else {
-      throw new IllegalArgumentException("Player is null or is no instanceof Player");
-    }
-
-
     if (game instanceof Game) {
       em.persist(game);
     } else {
@@ -218,7 +240,10 @@ public class Lab03GameImp extends Lab03Game {
     }
 
     em.getTransaction().commit();
+    em.clear();
     em.close();
   }
 
 }
+
+
