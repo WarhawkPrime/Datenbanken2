@@ -6,11 +6,10 @@ import de.hda.fbi.db2.api.Lab04MassData;
 import de.hda.fbi.db2.stud.entity.Game;
 import de.hda.fbi.db2.stud.entity.GameQuestion;
 import de.hda.fbi.db2.stud.entity.Player;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -28,7 +27,7 @@ public class Lab04MassDataImp extends Lab04MassData {
     HashMap<String, Player> hashPlayers = new HashMap<String, Player>();
     List<Player> players = emm.createQuery("SELECT p FROM Player p").getResultList();
 
-    for (Iterator i = players.iterator(); i.hasNext();) {
+    for (Iterator i = players.iterator(); i.hasNext(); ) {
       Player cm = (Player) i.next();
       hashPlayers.put(cm.getName(), cm);
     }
@@ -62,6 +61,7 @@ public class Lab04MassDataImp extends Lab04MassData {
         Object game = lab03Game.createGame(player, questions);
         lab03Game.playGame(game);
 
+          changeDate((Game) game);
 
         List<GameQuestion> gaQue;
 
@@ -74,7 +74,7 @@ public class Lab04MassDataImp extends Lab04MassData {
         }
 
 
-        for (GameQuestion elem: gaQue) {
+        for (GameQuestion elem : gaQue) {
           emm.persist(elem);
         }
 
@@ -89,8 +89,30 @@ public class Lab04MassDataImp extends Lab04MassData {
       emm.clear();
     }
     var after = System.currentTimeMillis();
-    var elaTime = (after-before)/1000;
-    System.out.println("Time to persist: " + (int) (elaTime/60) + "min " + elaTime%60 + "s");
+    var elaTime = (after - before) / 1000;
+    System.out.println("Time to persist: " + (int) (elaTime / 60) + "min " + elaTime % 60 + "s");
     emm.close();
   }
+
+  void changeDate(Game game) {
+
+    Random rand = new Random();
+    int days = rand.nextInt(15);
+
+    Calendar cal = Calendar.getInstance();
+
+    cal.setTime(game.getStarttime());
+    cal.add(Calendar.DATE, -days);
+
+    Date start = cal.getTime();
+    game.setStarttime(start);
+
+    cal.setTime(game.getEndtime());
+    cal.add(Calendar.DATE, -days);
+
+    Date end = cal.getTime();
+    game.setEndtime(end);
+
+  }
+
 }

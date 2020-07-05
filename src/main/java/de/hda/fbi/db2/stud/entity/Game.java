@@ -65,6 +65,10 @@ public class Game {
     this.endtime = (Date) endtime.clone();
   }
 
+  public Date getStarttime() {return starttime;}
+
+  public Date getEndtime() {return endtime;}
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
