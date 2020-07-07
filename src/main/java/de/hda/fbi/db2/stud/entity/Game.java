@@ -27,10 +27,10 @@ public class Game {
   Player player;
 
   @Temporal(TemporalType.TIMESTAMP)
-  Date starttime;
+  private Date starttime;
 
   @Temporal(TemporalType.TIMESTAMP)
-  Date endtime;
+  private Date endtime;
 
   @OneToMany(mappedBy = "game")
   private List<GameQuestion> gameQuestions;
@@ -65,9 +65,14 @@ public class Game {
     this.endtime = (Date) endtime.clone();
   }
 
-  public Date getStarttime() {return starttime;}
+  public Date getEndtime() {
+    return (Date) endtime.clone();
+  }
 
-  public Date getEndtime() {return endtime;}
+  public Date getStarttime() {
+    return (Date) starttime.clone();
+  }
+
 
   @Override
   public boolean equals(Object o) {

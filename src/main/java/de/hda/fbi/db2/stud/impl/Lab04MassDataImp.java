@@ -6,10 +6,15 @@ import de.hda.fbi.db2.api.Lab04MassData;
 import de.hda.fbi.db2.stud.entity.Game;
 import de.hda.fbi.db2.stud.entity.GameQuestion;
 import de.hda.fbi.db2.stud.entity.Player;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -18,6 +23,7 @@ public class Lab04MassDataImp extends Lab04MassData {
 
   @Override
   public void createMassData() {
+
 
     var before = System.currentTimeMillis();
 
@@ -61,7 +67,7 @@ public class Lab04MassDataImp extends Lab04MassData {
         Object game = lab03Game.createGame(player, questions);
         lab03Game.playGame(game);
 
-          changeDate((Game) game);
+        changeDate((Game) game);
 
         List<GameQuestion> gaQue;
 
@@ -92,6 +98,8 @@ public class Lab04MassDataImp extends Lab04MassData {
     var elaTime = (after - before) / 1000;
     System.out.println("Time to persist: " + (int) (elaTime / 60) + "min " + elaTime % 60 + "s");
     emm.close();
+
+
   }
 
   void changeDate(Game game) {
@@ -114,5 +122,6 @@ public class Lab04MassDataImp extends Lab04MassData {
     game.setEndtime(end);
 
   }
+
 
 }
