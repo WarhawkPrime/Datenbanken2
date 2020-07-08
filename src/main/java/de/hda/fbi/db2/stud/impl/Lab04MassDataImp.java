@@ -131,7 +131,6 @@ public class Lab04MassDataImp extends Lab04MassData {
     System.out.println("Analyzing data...");
 
     EntityManager emm = this.lab02EntityManager.getEntityManager();
-    EntityTransaction tr = emm.getTransaction();
 
     //Ausgabe aller Spieler (Spielername), die in einem bestimmten Zeitraum gespielt hatten.
     firstQuery(emm);
@@ -155,27 +154,28 @@ public class Lab04MassDataImp extends Lab04MassData {
   public void firstQuery(EntityManager em) {
     //format of Date: Tue Jul 07 20:33:56 CEST 2020
     //SELECT g FROM Game g WHERE g.starttime BETWEEN :s AND :e ", Game.class
-    /*
+
     Scanner input = new Scanner(System.in, "UTF-8");
-    System.out.println("Die Daten wurden in einem Zeitraum von 14 Tagen for for erstellung der Daten verteilt\nGeben sie Nun den StartMonat (früherer) an (nur Monat) : ");
+    System.out.println("Die Daten wurden in einem Zeitraum von 14 Tagen for for erstellung der Daten verteilt" +
+            "\nGeben sie Nun den StartMonat (früherer) an (nur Monat) : ");
     int startMonth = Integer.parseInt(input.nextLine());
     System.out.println("Geben sie Nun den Starttag (früherer) an (nur Tag) : ");
     int startDay = Integer.parseInt(input.nextLine());
+    System.out.println("Geben sie Nun den Startstunde (früherer) an (nur Stunde) : ");
+    int startHour = Integer.parseInt(input.nextLine());
+
     System.out.println("Geben sie Nun den Endmonat (späterer) an (nur Monat) : ");
     int endMonth = Integer.parseInt(input.nextLine());
     System.out.println("Geben sie Nun den Endtag (späterer) an (nur Tag) : ");
-    int endDay = Integer.parseInt(input.nextLine());*/
-    int startMonth = 6;
-    int startDay = 26;
-    int starthour = 0;
-    int endMonth = 6;
-    int endDay = 26;
-    int endhour = 1;
+    int endDay = Integer.parseInt(input.nextLine());
+    System.out.println("Geben sie Nun den Endtstunde (späterer) an (nur Stunde) : ");
+    int endHour = Integer.parseInt(input.nextLine());
+
 
     Calendar c = Calendar.getInstance();
-    c.set(2020, startMonth-1, startDay, starthour, 0);
+    c.set(2020, startMonth-1, startDay, startHour, 0);
     Date start = c.getTime();
-    c.set(2020, endMonth-1, endDay, endhour, 0);
+    c.set(2020, endMonth-1, endDay, endHour, 0);
     Date end = c.getTime();
 
     //select player_name from hamwil.game where starttime between '2020-07-07 15:35:26.162' and '2020-09-09 15:37:05.247'
@@ -192,7 +192,7 @@ public class Lab04MassDataImp extends Lab04MassData {
 
   public void secondQuery(EntityManager em) {
 
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in, "UTF-8");;
     String playerName = "";
 
     System.out.println();
