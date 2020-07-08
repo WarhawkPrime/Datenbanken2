@@ -27,12 +27,12 @@
 
             <property name="eclipselink.logging.level" value="WARNING"/>
             <property name="eclipselink.logging.exceptions" value="false"/>
-            <property name="eclipselink.logging.level.sql" value="WARNING"/>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
             <property name="eclipselink.logging.parameters" value="true"/>
             <property name="eclipselink.logging.timestamp" value="false"/>
             <property name="eclipselink.logging.session" value="false"/>
             <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
-            <property name="eclipselink.jdbc.batch-writing.size" value="10000"/>
+            <property name="eclipselink.jdbc.batch-writing.size" value="300"/>
         </properties>
     </persistence-unit>
 

@@ -247,4 +247,33 @@ public class Controller {
 
     lab04MassData.createMassData();
   }
+
+  /**
+   * analysis of the data.
+   */
+  public void analyzeData() {
+
+    if (lab01Data == null) {
+      System.err.println("Could not find Lab01Data Implementation");
+      return;
+    }
+
+    if (lab02EntityManager == null) {
+      System.err.println("Could not find Lab02EntityManager Implementation");
+      return;
+    }
+
+    if (lab03Game == null) {
+      System.err.println("Could not find Lab03Game Implementation");
+      return;
+    }
+
+    if (lab04MassData == null) {
+      System.err.println("Could not find Lab04MassData Implementation");
+      return;
+    }
+
+    lab04MassData.analyzeData();
+  }
+
 }

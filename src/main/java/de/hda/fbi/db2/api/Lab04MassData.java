@@ -52,4 +52,9 @@ public abstract class Lab04MassData {
   }
 
   public abstract void createMassData();
+
+  /**
+   * analysis of the db data.
+   */
+  public abstract void analyzeData();
 }
