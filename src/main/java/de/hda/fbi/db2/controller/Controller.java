@@ -4,6 +4,9 @@ import de.hda.fbi.db2.api.Lab01Data;
 import de.hda.fbi.db2.api.Lab02EntityManager;
 import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.api.Lab04MassData;
+import de.hda.fbi.db2.stud.entity.Player;
+
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -247,4 +250,33 @@ public class Controller {
 
     lab04MassData.createMassData();
   }
+
+  /**
+   * analysis of the data.
+   */
+  public void analyzeData() {
+
+    if (lab01Data == null) {
+      System.err.println("Could not find Lab01Data Implementation");
+      return;
+    }
+
+    if (lab02EntityManager == null) {
+      System.err.println("Could not find Lab02EntityManager Implementation");
+      return;
+    }
+
+    if (lab03Game == null) {
+      System.err.println("Could not find Lab03Game Implementation");
+      return;
+    }
+
+    if (lab04MassData == null) {
+      System.err.println("Could not find Lab04MassData Implementation");
+      return;
+    }
+
+    lab04MassData.analyzeData();
+  }
+
 }
