@@ -160,14 +160,18 @@ public class Lab04MassDataImp extends Lab04MassData {
     //SELECT g FROM Game g WHERE g.starttime BETWEEN :s AND :e ", Game.class
 
     Scanner input = new Scanner(System.in, "UTF-8");
-    System.out.println("Die Daten wurden in einem Zeitraum von 14 Tagen for for erstellung der Daten verteilt" +
-            "\nGeben sie Nun den StartMonat (früherer) an (nur Monat) : ");
+    System.out.println("Die Daten wurden in einem Zeitraum von 14"
+            + " Tagen for for erstellung der Daten verteilt"
+            + "\nGeben sie Nun den StartMonat (früherer) an (nur Monat) : ");
     int startMonth = Integer.parseInt(input.nextLine());
     System.out.println("Geben sie Nun den Starttag (früherer) an (nur Tag) : ");
     int startDay = Integer.parseInt(input.nextLine());
     System.out.println("Geben sie Nun den Startstunde (früherer) an (nur Stunde) : ");
-    int startHour = Integer.parseInt(input.nextLine());
 
+    int startHour = Integer.parseInt(input.nextLine());
+    Calendar c = Calendar.getInstance();
+
+    c.set(2020, startMonth - 1, startDay, startHour, 0);
     System.out.println("Geben sie Nun den Endmonat (späterer) an (nur Monat) : ");
     int endMonth = Integer.parseInt(input.nextLine());
     System.out.println("Geben sie Nun den Endtag (späterer) an (nur Tag) : ");
@@ -175,29 +179,31 @@ public class Lab04MassDataImp extends Lab04MassData {
     System.out.println("Geben sie Nun den Endtstunde (späterer) an (nur Stunde) : ");
     int endHour = Integer.parseInt(input.nextLine());
 
-
-    Calendar c = Calendar.getInstance();
-    c.set(2020, startMonth-1, startDay, startHour, 0);
     Date start = c.getTime();
-    c.set(2020, endMonth-1, endDay, endHour, 0);
+    c.set(2020, endMonth - 1, endDay, endHour, 0);
     Date end = c.getTime();
 
-    //select player_name from hamwil.game where starttime between '2020-07-07 15:35:26.162' and '2020-09-09 15:37:05.247'
-    TypedQuery<String> query = em.createQuery("SELECT g.player.name FROM Game g WHERE g.starttime BETWEEN :start AND :end GROUP BY g.player.name", String.class);
-    query.setParameter("start", start );
+    //select player_name from hamwil.game where starttime between '2020-07-07
+    // 15:35:26.162' and '2020-09-09 15:37:05.247'
+    TypedQuery<String> query = em.createQuery("SELECT g.player.name "
+            + "FROM Game g WHERE g.starttime BETWEEN :start AND :end "
+            + "GROUP BY g.player.name", String.class);
+    query.setParameter("start", start);
     query.setParameter("end", end);
     List<String> player = query.getResultList();
 
-    System.out.println("Alle Spieler die in einem Zeitraum von " + start + " bis " + end + " gespielt haben:");
+    System.out.println("Alle Spieler die in einem Zeitraum von " + start + " bis "
+            + end + " gespielt haben:");
     for (String elem : player) {
       System.out.println(elem);
     }
   }
 
+  /**
+   * implementation for the second query.
+   * @param em is the entity manager
+   */
   public void secondQuery(EntityManager em) {
-
-    Scanner sc = new Scanner(System.in, "UTF-8");;
-    String playerName = "";
 
     System.out.println();
     System.out.println("Liste aller verfügbaren Spieler: ");
@@ -208,7 +214,10 @@ public class Lab04MassDataImp extends Lab04MassData {
       System.out.println(counter + " : " + elem.getName());
       counter++;
     }
+
+    String playerName = "";
     System.out.println("Bitte Spieler namen genau eingeben : ");
+    Scanner sc = new Scanner(System.in, "UTF-8");;
     playerName = sc.nextLine();
 
     //select distinct game.id, COUNT(gamequestion.id), SUM(gamequestion.givenanswer::int) from
@@ -217,9 +226,9 @@ public class Lab04MassDataImp extends Lab04MassData {
     //game.player_name='Player1' Group By
     //game.id
 
-    Query secondQuery = em.createQuery("SELECT DISTINCT g.id, g.starttime, g.endtime, COUNT(gq), " +
-            "SUM(gq.givenAnswer) FROM Game g, GameQuestion  gq WHERE" +
-            " gq.game = g AND g.player.name= :playerName GROUP BY g.id");
+    Query secondQuery = em.createQuery("SELECT DISTINCT g.id, g.starttime, g.endtime, COUNT(gq), "
+            + "SUM(gq.givenAnswer) FROM Game g, GameQuestion  gq WHERE"
+            + " gq.game = g AND g.player.name= :playerName GROUP BY g.id");
     secondQuery.setParameter("playerName", playerName);
 
     List<Object[]> objects = secondQuery.getResultList();
@@ -227,11 +236,12 @@ public class Lab04MassDataImp extends Lab04MassData {
     List<Game> games;
     List<GameQuestion> gameQuestions;
 
-    System.out.println("Alle Spiele(ID,Datum), sowie die Anzahl der korekten Antworten pro Spiel " +
-            "mit Angabe der Gesamtanzahl der Fragen pro Spiel bzw. alternativ den Prozentsatz der korrekt beantworteten Fragen");
+    System.out.println("Alle Spiele(ID,Datum), sowie die Anzahl der korekten Antworten pro Spiel "
+            + "mit Angabe der Gesamtanzahl der Fragen pro Spiel bzw. alternativ "
+            + "den Prozentsatz der korrekt beantworteten Fragen");
 
     System.out.println("");
-    for (Object elem[] : objects) {
+    for (Object[] elem : objects) {
       System.out.println("Game ID: " + elem[0]);
       System.out.println("Startdatum: " + elem[1]);
       System.out.println("Enddatum: " + elem[2]);
@@ -241,15 +251,23 @@ public class Lab04MassDataImp extends Lab04MassData {
     }
   }
 
+  /**
+   * implementation for the third query.
+   * @param em is the entity manager
+   */
   public void thirdQuery(EntityManager em) {
 
-    //select game.player_name, count(*) from hamwil.game group by game.player_name order by count(*) desc
+    //select game.player_name, count(*) from hamwil.game group by game.player_name
+    // order by count(*) desc
 
-    List<Object[]> objects = em.createQuery("SELECT g.player.name, COUNT(g) FROM Game g GROUP BY g.player ORDER BY COUNT(g) DESC").getResultList();
+    List<Object[]> objects = em.createQuery("SELECT g.player.name, COUNT(g) "
+            + "FROM Game g GROUP BY g.player "
+            + "ORDER BY COUNT(g) DESC").getResultList();
 
-    System.out.println("Ausgabe aller Spieler mit Anzahl der gespielten Spiele, nach Anzahl absteigend geordnet : ");
+    System.out.println("Ausgabe aller Spieler mit Anzahl der gespielten "
+            + "Spiele, nach Anzahl absteigend geordnet : ");
     System.out.println("");
-    for (Object elem[]: objects) {
+    for (Object[] elem: objects) {
       System.out.println("Spieler: " +  elem[0]);
       System.out.println("Anzahl an Spielen: " + elem[1]);
       System.out.println("");
@@ -257,6 +275,10 @@ public class Lab04MassDataImp extends Lab04MassData {
 
   }
 
+  /**
+   * Impementation for the fourth Analysis.
+   * @param em is the entity manager
+   */
   public void fourthQuery(EntityManager em) {
 
     //select category.name, count(*) from hamwil.category inner join
@@ -264,14 +286,16 @@ public class Lab04MassDataImp extends Lab04MassData {
     //hamwil.gamequestion on hamwil.question.id = hamwil.gamequestion.question_id
     //group by category.name
 
-    List<Object[]> objects = em.createQuery("SELECT c.name, COUNT(c) FROM Category c, Question q, GameQuestion gq " +
-            "WHERE c=q.category AND q=gq.question GROUP BY c.name ORDER BY COUNT(c) DESC ").getResultList();
+    List<Object[]> objects = em.createQuery("SELECT c.name, COUNT(c) "
+            + "FROM Category c, Question q, GameQuestion gq "
+            + "WHERE c=q.category AND q=gq.question GROUP BY c.name"
+            + " ORDER BY COUNT(c) DESC ").getResultList();
 
-    System.out.println("Ausgabe der am meisten gefragten Kategorie, oder alternativ, " +
-            "die Beliebtheit der Kategorien nach Anzahl der Auswahl absteigend sortiert");
+    System.out.println("Ausgabe der am meisten gefragten Kategorie, oder alternativ, "
+            + "die Beliebtheit der Kategorien nach Anzahl der Auswahl absteigend sortiert");
 
-    for (Object elem[]: objects) {
-      System.out.println( elem[0] );
+    for (Object [] elem: objects) {
+      System.out.println(elem[0]);
       System.out.println(elem[1]);
     }
   }
