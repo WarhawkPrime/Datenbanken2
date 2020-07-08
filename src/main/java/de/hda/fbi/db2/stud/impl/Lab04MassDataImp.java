@@ -9,6 +9,7 @@ import de.hda.fbi.db2.stud.entity.Player;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -103,17 +104,20 @@ public class Lab04MassDataImp extends Lab04MassData {
 
     Random rand = new Random();
     int days = rand.nextInt(15);
+    int hours = rand.nextInt(23);
 
     Calendar cal = Calendar.getInstance();
 
     cal.setTime(game.getStarttime());
     cal.add(Calendar.DATE, -days);
+    cal.add(Calendar.HOUR, -hours);
 
     Date start = cal.getTime();
     game.setStarttime(start);
 
     cal.setTime(game.getEndtime());
     cal.add(Calendar.DATE, -days);
+    cal.add(Calendar.HOUR, -hours);
 
     Date end = cal.getTime();
     game.setEndtime(end);
@@ -148,21 +152,40 @@ public class Lab04MassDataImp extends Lab04MassData {
 
 
   public void firstQuery(EntityManager em) {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
     //format of Date: Tue Jul 07 20:33:56 CEST 2020
     //SELECT g FROM Game g WHERE g.starttime BETWEEN :s AND :e ", Game.class
-    Date start = new Date();
-    Date end = new Date();
+    /*
+    Scanner input = new Scanner(System.in, "UTF-8");
+    System.out.println("Die Daten wurden in einem Zeitraum von 14 Tagen for for erstellung der Daten verteilt\nGeben sie Nun den StartMonat (früherer) an (nur Monat) : ");
+    int startMonth = Integer.parseInt(input.nextLine());
+    System.out.println("Geben sie Nun den Starttag (früherer) an (nur Tag) : ");
+    int startDay = Integer.parseInt(input.nextLine());
+    System.out.println("Geben sie Nun den Endmonat (späterer) an (nur Monat) : ");
+    int endMonth = Integer.parseInt(input.nextLine());
+    System.out.println("Geben sie Nun den Endtag (späterer) an (nur Tag) : ");
+    int endDay = Integer.parseInt(input.nextLine());*/
+    int startMonth = 6;
+    int startDay = 26;
+    int starthour = 0;
+    int endMonth = 6;
+    int endDay = 26;
+    int endhour = 1;
+
+    Calendar c = Calendar.getInstance();
+    c.set(2020, startMonth-1, startDay, starthour, 0);
+    Date start = c.getTime();
+    c.set(2020, endMonth-1, endDay, endhour, 0);
+    Date end = c.getTime();
 
     //select player_name from hamwil.game where starttime='2020-07-07 15:35:26.162' and endtime='2020-07-07 15:37:05.247'
-    TypedQuery<Game> query = em.createQuery("SELECT g FROM Game g WHERE g.starttime BETWEEN :start AND :end ", Game.class);
+    TypedQuery<String> query = em.createQuery("SELECT g.player.name FROM Game g WHERE g.starttime BETWEEN :start AND :end GROUP BY g.player.name", String.class);
     query.setParameter("start", start );
     query.setParameter("end", end);
-    List<Game> games = query.getResultList();
+    List<String> player = query.getResultList();
 
     System.out.println("Alle Spieler die in einem Zeitraum von " + start + " bis " + end + " gespielt haben:");
-    for (Game elem : games) {
-      System.out.println(elem.getPlayer());
+    for (String elem : player) {
+      System.out.println(elem);
     }
 
   }
