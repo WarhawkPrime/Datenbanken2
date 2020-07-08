@@ -3,6 +3,7 @@ package de.hda.fbi.db2.stud.impl;
 import de.hda.fbi.db2.api.Lab01Data;
 import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.api.Lab04MassData;
+import de.hda.fbi.db2.stud.entity.Category;
 import de.hda.fbi.db2.stud.entity.Game;
 import de.hda.fbi.db2.stud.entity.GameQuestion;
 import de.hda.fbi.db2.stud.entity.Player;
@@ -211,7 +212,7 @@ public class Lab04MassDataImp extends Lab04MassData {
     System.out.println("Bitte Spieler namen genau eingeben : ");
     playerName = sc.nextLine();
 
-    Query secondQuery = em.createQuery("SELECT g, gq from Game g, GameQuestion gq " +
+    Query secondQuery = em.createQuery("SELECT DISTINCT g, gq from Game g, GameQuestion gq " +
             "WHERE gq.game = g AND g.player.name= :playerName ");
     secondQuery.setParameter("playerName", playerName);
 
@@ -220,12 +221,18 @@ public class Lab04MassDataImp extends Lab04MassData {
     List<Game> games;
     List<GameQuestion> gameQuestions;
 
+    System.out.println("Alle Spiele(ID,Datum), sowie die Anzahl der korekten Antworten pro Spiel " +
+            "mit Angabe der Gesamtanzahl der Fragen pro Spiel bzw. alternativ den Prozentsatz der korrekt beantworteten Fragen");
+
+
     for (Object elem[] : objects) {
       Game game = (Game) elem[0];
-      System.out.println(game.getPlayer().getName());
+      System.out.println("Game ID: " + game.getId());
+      System.out.println("Game Startdate: " + game.getStarttime());
       GameQuestion gq = (GameQuestion) elem[1];
       System.out.println(gq.getQuestion().get_question());
     }
+
 
     System.out.println();
 
@@ -242,12 +249,34 @@ public class Lab04MassDataImp extends Lab04MassData {
 
     //select game.player_name, count(*) from hamwil.game group by game.player_name order by count(*) desc
 
-    //List<Player> players = em.createQuery("").getResultList();
+    List<Object[]> objects = em.createQuery("SELECT g.player, COUNT(g) FROM Game g GROUP BY g.player ORDER BY COUNT(g) DESC").getResultList();
 
+    System.out.println("Ausgabe aller Spieler mit Anzahl der gespielten Spiele, nach Anzahl absteigend geordnet : ");
+    for (Object elem[]: objects) {
+      System.out.println("Spieler: " + ((Player) elem[0]).getName());
+      System.out.println("Anzahl an Spielen: " + elem[1]);
+    }
 
   }
 
   public void fourthQuery(EntityManager em) {
+
+    //select category.name, count(*) from hamwil.category inner join
+    //hamwil.question on hamwil.category.id = hamwil.question.category_id inner join
+    //hamwil.gamequestion on hamwil.question.id = hamwil.gamequestion.question_id
+    //group by category.name
+
+    List<Object[]> objects = em.createQuery("SELECT c.name, COUNT(c) FROM Category c, Question q, GameQuestion gq " +
+            "WHERE c=q.category AND q=gq.question GROUP BY c.name ORDER BY COUNT(c) DESC ").getResultList();
+
+    System.out.println("Ausgabe der am meisten gefragten Kategorie, oder alternativ, " +
+            "die Beliebtheit der Kategorien nach Anzahl der Auswahl absteigend sortiert");
+
+    for (Object elem[]: objects) {
+      System.out.println( elem[0] );
+      System.out.println(elem[1]);
+    }
+
 
   }
 
