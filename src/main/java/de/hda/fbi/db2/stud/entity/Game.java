@@ -18,7 +18,6 @@ import javax.persistence.TemporalType;
 public class Game {
 
 
-
   @Id
   @GeneratedValue
   private int id;
@@ -95,5 +94,7 @@ public class Game {
     return player;
   }
 
-
+  public int getId() {
+    return id;
+  }
 }
