@@ -21,8 +21,8 @@ public class GameQuestion {
   @ManyToOne
   Game game;
 
-  boolean givenAnswer;
-
+  //boolean givenAnswer;
+  int givenAnswer;
   public GameQuestion() {}
 
 
@@ -34,7 +34,7 @@ public class GameQuestion {
   public GameQuestion(Game game, Question question) {
     this.game = game;
     this.question = question;
-    givenAnswer = false;
+    givenAnswer = 0;
   }
 
   public Question getQuestion() {
@@ -53,11 +53,11 @@ public class GameQuestion {
     this.game = game;
   }
 
-  public boolean isGiven_answer() {
+  public int isGiven_answer() {
     return givenAnswer;
   }
 
-  public void setGiven_answer(boolean givenAnswer) {
+  public void setGiven_answer(int givenAnswer) {
     this.givenAnswer = givenAnswer;
   }
 

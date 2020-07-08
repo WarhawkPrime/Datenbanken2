@@ -212,8 +212,20 @@ public class Lab04MassDataImp extends Lab04MassData {
     System.out.println("Bitte Spieler namen genau eingeben : ");
     playerName = sc.nextLine();
 
-    Query secondQuery = em.createQuery("SELECT DISTINCT g, gq from Game g, GameQuestion gq " +
-            "WHERE gq.game = g AND g.player.name= :playerName ");
+    //select distinct game.id, COUNT(gamequestion.id), SUM(gamequestion.givenanswer::int) from
+    //hamwil.game inner join hamwil.gamequestion on
+    //hamwil.game.id = hamwil.gamequestion.game_id where
+    //game.player_name='Player1' Group By
+    //game.id
+
+    //select distinct game.id, COUNT(gamequestion.id), COUNT(*) FILTER (WHERE gamequestion.givenanswer) from
+    //hamwil.game inner join hamwil.gamequestion on
+    //hamwil.game.id = hamwil.gamequestion.game_id where
+    //game.player_name='Player1' Group By
+    //game.id
+
+    Query secondQuery = em.createQuery("SELECT DISTINCT g.id, g.starttime, g.endtime, COUNT (gq), SUM( (gq.givenAnswer) )  from Game g, GameQuestion gq " +
+            "WHERE gq.game = g AND g.player.name= :playerName GROUP BY g,gq");
     secondQuery.setParameter("playerName", playerName);
 
     List<Object[]> objects = secondQuery.getResultList();
@@ -226,11 +238,11 @@ public class Lab04MassDataImp extends Lab04MassData {
 
 
     for (Object elem[] : objects) {
-      Game game = (Game) elem[0];
-      System.out.println("Game ID: " + game.getId());
-      System.out.println("Game Startdate: " + game.getStarttime());
-      GameQuestion gq = (GameQuestion) elem[1];
-      System.out.println(gq.getQuestion().get_question());
+      System.out.println("Game ID: " + elem[0]);
+      System.out.println("Startdatum: " + elem[1]);
+      System.out.println("Enddatum: " + elem[2]);
+      System.out.println("Anzahl an Fragen: " + elem[3]);
+      System.out.println("Anzahl an korrekten Antworten: " + elem[4]);
     }
 
 

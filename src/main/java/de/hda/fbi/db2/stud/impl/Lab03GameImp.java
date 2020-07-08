@@ -173,9 +173,9 @@ public class Lab03GameImp extends Lab03Game {
       int givenAnswer = ran.nextInt(4) + 1;
 
       if (givenAnswer == elem.getQuestion().get_correct_answer()) {
-        elem.setGiven_answer(true);
+        elem.setGiven_answer(1);
       } else {
-        elem.setGiven_answer(false);
+        elem.setGiven_answer(0);
       }
     }
 
@@ -204,10 +204,10 @@ public class Lab03GameImp extends Lab03Game {
 
       if (givenAnswer == elem.getQuestion().get_correct_answer()) {
         System.out.println("Hurra! Ihre Antwort ist korrekt");
-        elem.setGiven_answer(true);
+        elem.setGiven_answer(1);
       } else {
         System.out.println("Schade! Ihre Antwort ist leider falsch");
-        elem.setGiven_answer(false);
+        elem.setGiven_answer(0);
       }
     }
     cgame.setEndtime(new Date());
