@@ -178,7 +178,7 @@ public class Lab04MassDataImp extends Lab04MassData {
     c.set(2020, endMonth-1, endDay, endhour, 0);
     Date end = c.getTime();
 
-    //select player_name from hamwil.game where starttime='2020-07-07 15:35:26.162' and endtime='2020-07-07 15:37:05.247'
+    //select player_name from hamwil.game where starttime between '2020-07-07 15:35:26.162' and '2020-09-09 15:37:05.247'
     TypedQuery<String> query = em.createQuery("SELECT g.player.name FROM Game g WHERE g.starttime BETWEEN :start AND :end GROUP BY g.player.name", String.class);
     query.setParameter("start", start );
     query.setParameter("end", end);
@@ -188,7 +188,6 @@ public class Lab04MassDataImp extends Lab04MassData {
     for (String elem : player) {
       System.out.println(elem);
     }
-
   }
 
   public void secondQuery(EntityManager em) {
