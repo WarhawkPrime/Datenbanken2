@@ -193,11 +193,7 @@ public class Lab04MassDataImp extends Lab04MassData {
 
   public void secondQuery(EntityManager em) {
 
-    //select game.id, game.endtime, gamequestion.id, gamequestion.givenanswer from hamwil.game inner join hamwil.gamequestion on
-    //hamwil.game.id = hamwil.gamequestion.game_id where game.player_name='Dennis'
-
     Scanner sc = new Scanner(System.in);
-
     String playerName = "";
 
     System.out.println();
@@ -218,14 +214,9 @@ public class Lab04MassDataImp extends Lab04MassData {
     //game.player_name='Player1' Group By
     //game.id
 
-    //select distinct game.id, COUNT(gamequestion.id), COUNT(*) FILTER (WHERE gamequestion.givenanswer) from
-    //hamwil.game inner join hamwil.gamequestion on
-    //hamwil.game.id = hamwil.gamequestion.game_id where
-    //game.player_name='Player1' Group By
-    //game.id
-
-    Query secondQuery = em.createQuery("SELECT DISTINCT g.id, g.starttime, g.endtime, COUNT (gq), SUM( (gq.givenAnswer) )  from Game g, GameQuestion gq " +
-            "WHERE gq.game = g AND g.player.name= :playerName GROUP BY g,gq");
+    Query secondQuery = em.createQuery("SELECT DISTINCT g.id, g.starttime, g.endtime, COUNT(gq), " +
+            "SUM(gq.givenAnswer) FROM Game g, GameQuestion  gq WHERE" +
+            " gq.game = g AND g.player.name= :playerName GROUP BY g.id");
     secondQuery.setParameter("playerName", playerName);
 
     List<Object[]> objects = secondQuery.getResultList();
@@ -236,37 +227,29 @@ public class Lab04MassDataImp extends Lab04MassData {
     System.out.println("Alle Spiele(ID,Datum), sowie die Anzahl der korekten Antworten pro Spiel " +
             "mit Angabe der Gesamtanzahl der Fragen pro Spiel bzw. alternativ den Prozentsatz der korrekt beantworteten Fragen");
 
-
+    System.out.println("");
     for (Object elem[] : objects) {
       System.out.println("Game ID: " + elem[0]);
       System.out.println("Startdatum: " + elem[1]);
       System.out.println("Enddatum: " + elem[2]);
       System.out.println("Anzahl an Fragen: " + elem[3]);
       System.out.println("Anzahl an korrekten Antworten: " + elem[4]);
+      System.out.println("");
     }
-
-
-    System.out.println();
-
-    System.out.println();
-    System.out.println("Alle Spiele von Spieler " + playerName + " : ");
-
-    System.out.println("Prozentsatz der korrekt beantworteten Fragen: ");
-
-    System.out.println();
-
   }
 
   public void thirdQuery(EntityManager em) {
 
     //select game.player_name, count(*) from hamwil.game group by game.player_name order by count(*) desc
 
-    List<Object[]> objects = em.createQuery("SELECT g.player, COUNT(g) FROM Game g GROUP BY g.player ORDER BY COUNT(g) DESC").getResultList();
+    List<Object[]> objects = em.createQuery("SELECT g.player.name, COUNT(g) FROM Game g GROUP BY g.player ORDER BY COUNT(g) DESC").getResultList();
 
     System.out.println("Ausgabe aller Spieler mit Anzahl der gespielten Spiele, nach Anzahl absteigend geordnet : ");
+    System.out.println("");
     for (Object elem[]: objects) {
-      System.out.println("Spieler: " + ((Player) elem[0]).getName());
+      System.out.println("Spieler: " +  elem[0]);
       System.out.println("Anzahl an Spielen: " + elem[1]);
+      System.out.println("");
     }
 
   }
@@ -288,8 +271,6 @@ public class Lab04MassDataImp extends Lab04MassData {
       System.out.println( elem[0] );
       System.out.println(elem[1]);
     }
-
-
   }
 
 
