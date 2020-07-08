@@ -4,9 +4,6 @@ import de.hda.fbi.db2.api.Lab01Data;
 import de.hda.fbi.db2.api.Lab02EntityManager;
 import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.api.Lab04MassData;
-import de.hda.fbi.db2.stud.entity.Player;
-
-import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;

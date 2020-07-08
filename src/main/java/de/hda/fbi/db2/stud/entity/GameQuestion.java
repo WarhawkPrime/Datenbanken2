@@ -23,6 +23,7 @@ public class GameQuestion {
 
   //boolean givenAnswer;
   int givenAnswer;
+
   public GameQuestion() {}
 
 
