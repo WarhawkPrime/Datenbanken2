@@ -1,17 +1,17 @@
 package de.hda.fbi.db2.stud.impl;
 
-import de.hda.fbi.db2.api.Lab01Data;
-import de.hda.fbi.db2.api.Lab03Game;
 import de.hda.fbi.db2.api.Lab04MassData;
-import de.hda.fbi.db2.stud.entity.Category;
 import de.hda.fbi.db2.stud.entity.Game;
 import de.hda.fbi.db2.stud.entity.GameQuestion;
 import de.hda.fbi.db2.stud.entity.Player;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -36,7 +36,6 @@ public class Lab04MassDataImp extends Lab04MassData {
       Player cm = (Player) i.next();
       hashPlayers.put(cm.getName(), cm);
     }
-
 
     for (int playerloop = 0; playerloop < 10000; playerloop++) {
 
@@ -135,22 +134,27 @@ public class Lab04MassDataImp extends Lab04MassData {
     //Ausgabe aller Spieler (Spielername), die in einem bestimmten Zeitraum gespielt hatten.
     firstQuery(emm);
 
-    //Ausgabe zu einem bestimmten Spieler: Alle Spiele(ID,Datum), sowie die Anzahl der korekten Antworten pro Spiel
-    // mit Angabe der Gesamtanzahl der Fragen pro Spiel bzw. alternativ den Prozentsatz der korrekt beantworteten Fragen.
+    //Ausgabe zu einem bestimmten Spieler: Alle Spiele(ID,Datum)
+    // , sowie die Anzahl der korekten Antworten pro Spiel
+    // mit Angabe der Gesamtanzahl der Fragen pro Spiel bzw.
+    // alternativ den Prozentsatz der korrekt beantworteten Fragen.
     secondQuery(emm);
 
     //Ausgabe aller Spieler mit Anzahl der gespielten Spiele, nach Anzahl absteigend geordnet
     thirdQuery(emm);
 
-    //Ausgabe der am meisten gefragten Kategorie, oder alternativ, die Beliebtheit der Kategorien nach Anzahl der Auswahl
+    //Ausgabe der am meisten gefragten Kategorie,
+    // oder alternativ, die Beliebtheit der Kategorien nach Anzahl der Auswahl
     //absteigend sortiert
     fourthQuery(emm);
 
   }
 
 
-
-
+  /**
+   * First Excerices JPQL Query.
+   * @param em Entity Manager to handle data
+   */
   public void firstQuery(EntityManager em) {
     //format of Date: Tue Jul 07 20:33:56 CEST 2020
     //SELECT g FROM Game g WHERE g.starttime BETWEEN :s AND :e ", Game.class
