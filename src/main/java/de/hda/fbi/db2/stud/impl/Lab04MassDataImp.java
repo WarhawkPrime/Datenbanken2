@@ -45,9 +45,9 @@ public class Lab04MassDataImp extends Lab04MassData {
         player = hashPlayers.get(Integer.toString(playerloop));
       } else {
 
-        Player p = new Player(Integer.toString(playerloop));
-        hashPlayers.put(p.getName(), p);
-        emm.persist(p);
+        player = new Player(Integer.toString(playerloop));
+        hashPlayers.put(player.getName(), player);
+        emm.persist(player);
       }
 
       for (int gameloop = 0; gameloop < 100; gameloop++) {
